@@ -27,22 +27,52 @@ galleryContainer.innerHTML = galleryItemsMarkup;
 
 galleryContainer.addEventListener('click', onGalleryItemClick);
 
+// function onGalleryItemClick(e) {
+//     e.preventDefault();
+
+//     if (!e.target.classList.contains('gallery__image')){
+//         return
+//     }
+
+//     const currentActiveImageLink = e.target.dataset.source;
+
+//     const instance = basicLightbox.create(`<img src="${currentActiveImageLink}" width="800" height="600">`);
+//     instance.show();
+
+//     galleryContainer.addEventListener('keydown', (e) => {
+//         if (e.code === "Escape") {
+//             instance.close();
+//         };
+//     });
+// };
+
+let instance;
+
 function onGalleryItemClick(e) {
-    e.preventDefault();
+    e.preventDefault()
 
     if (!e.target.classList.contains('gallery__image')){
         return
     }
 
+    galleryContainer.addEventListener('keydown', onEscPress);
+
     const currentActiveImageLink = e.target.dataset.source;
-
-    const instance = basicLightbox.create(`<img src="${currentActiveImageLink}" width="800" height="600">`);
-    instance.show();
-
-    galleryContainer.addEventListener('keydown', (e) => {
-        if (e.code === "Escape") {
-            instance.close();
-        };
+    
+    instance = basicLightbox.create(`<img src="${currentActiveImageLink}" width="800" height="600">`, {
+        onClose: (instance) => {
+            galleryContainer.removeEventListener('keydown', onEscPress)
+        }
     });
+    instance.show();
+   
 };
+
+function onEscPress(e) {
+    if (e.code === "Escape") {
+        instance.close()
+    };   
+};
+
+
 
