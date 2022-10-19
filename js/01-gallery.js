@@ -1,8 +1,6 @@
 import { galleryItems } from './gallery-items.js';
 // Change code below this line
 
-// console.log(galleryItems);
-
 const galleryContainer = document.querySelector('.gallery');
 
 function createGalleryMarkup(images) {
@@ -27,15 +25,23 @@ galleryContainer.innerHTML = galleryItemsMarkup;
 
 // galleryContainer.insertAdjacentHTML('beforeend', galleryItemsMarkup);
 
-galleryContainer.addEventListener('click', onGalleryItemsClick)
+galleryContainer.addEventListener('click', onGalleryItemClick);
 
-function onGalleryItemsClick(e) {
+function onGalleryItemClick(e) {
+    e.preventDefault();
+
     if (!e.target.classList.contains('gallery__image')){
         return
     }
-    e.preventDefault();
 
     const currentActiveImageLink = e.target.dataset.source;
-    console.log(currentActiveImageLink);
-}   
 
+    const instance = basicLightbox.create(`<img src="${currentActiveImageLink}" width="800" height="600">`);
+    instance.show();
+
+    galleryContainer.addEventListener('keydown', (e) => {
+        if (e.code === "Escape") {
+            instance.close();
+        };
+    });
+};
