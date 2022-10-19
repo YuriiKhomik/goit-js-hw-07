@@ -21,11 +21,21 @@ function createGalleryMarkup(images) {
     }).join('');
 };
 
-// console.log(createGalleryMarkup(galleryItems))
-
 const galleryItemsMarkup = createGalleryMarkup(galleryItems);
-console.log(galleryItemsMarkup);
 
 galleryContainer.innerHTML = galleryItemsMarkup;
 
+// galleryContainer.insertAdjacentHTML('beforeend', galleryItemsMarkup);
+
+galleryContainer.addEventListener('click', onGalleryItemsClick)
+
+function onGalleryItemsClick(e) {
+    if (!e.target.classList.contains('gallery__image')){
+        return
+    }
+    e.preventDefault();
+
+    const currentActiveImageLink = e.target.dataset.source;
+    console.log(currentActiveImageLink);
+}   
 
